@@ -58,16 +58,8 @@ DISABLE_WP_CRON=false
 ## WORDPRESS SALT
 ## @see https://developer.wordpress.org/reference/functions/wp_salt/
 ## @see https://api.wordpress.org/secret-key/1.1/salt/
-## Generate with :
+## Generate salt from cli :
 ## php vendor/bin/wp-salt dotenv --clean >> .env
-AUTH_KEY="r?J}leh:s)W-hjIoLb]lD)#],@w8b{#*|8>bc](k~ds!izz~J*phqE[[!B_(9nPl"
-SECURE_AUTH_KEY="r]xS1)5?uHY@OM]7%V7[O-Gh2<SL~bzx/01j2W)Pa]c!}x3sm,rmO?[}H^uo`hu."
-LOGGED_IN_KEY="M/9^coIb%b~n~kNWws/u[?8a_%r!&AA]+(s?_D3v8RgK2f)FOHI&u,)T?)fRp<9i"
-NONCE_KEY="?Q/-+]yh]ttgdflzqb-$Ln)JN*h![01L+$x~`uNw5FDnR=:Sa}purf%1[?0Gw0We"
-AUTH_SALT="GfNy(G07G4drvcW|K]s|%&`1RA~.y}3>#mlox<Fx~Mp>TCliw!mI`kzp<?PI.U#s"
-SECURE_AUTH_SALT="^v&;6zay$eK*yjA|p|^.autQ>gylaWE>*,ZUDdDQlj0>nu}@PjSl{vO|A,Sb.176"
-LOGGED_IN_SALT="T)JFGirExD|n%8yh9];XhFAqL}-{vbJxnoE?>)E%(]O+sYo|os9^~Q{&(<6mGD7P"
-NONCE_SALT="Q:PD/},=:d0JK){-xT;NnTxhk+g*s&(ay#91y98quymCp&Q~;m*i.&-Oo`9UzXDz"
 ```
 
 ### Edit wp-config.php
@@ -77,11 +69,14 @@ Replace the contents of wp-config.php file with the code below :
 ```php
 use Pollen\WpEnv\WpEnv;
 
+// Optionnal but recommended start time global indicator
 defined('START_TIME') ?: define('START_TIME', microtime(true));
 
 require_once __DIR__ . '/vendor/autoload.php';
 
 new WpEnv(__DIR__);
+
+require_once(ABSPATH . 'wp-settings.php');
 ```
 
 
