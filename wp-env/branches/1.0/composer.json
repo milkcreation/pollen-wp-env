@@ -24,8 +24,7 @@
   ],
   "require": {
     "pollen-solutions/support": "^1.0",
-    "pollen-solutions/wp-salt": "^1.0",
-    "vlucas/phpdotenv": "^5.3"
+    "pollen-solutions/wp-salt": "^1.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.0"

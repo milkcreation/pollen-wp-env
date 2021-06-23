@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WpEnv;
+namespace Pollen\WpEnv;
 
 use Dotenv\Dotenv;
 use Dotenv\Exception\InvalidPathException;
