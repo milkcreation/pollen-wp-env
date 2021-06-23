@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Pollen\WpEnv;
 
-use Dotenv\Dotenv;
-use Dotenv\Exception\InvalidPathException;
 use Pollen\Support\Env;
 use Pollen\Support\Filesystem as fs;
 
@@ -16,15 +14,7 @@ class WpEnv
      */
     public function __construct(string $basePath)
     {
-        try {
-            $dotenv = Dotenv::createImmutable($basePath);
-            $dotenv->load();
-        } catch (InvalidPathException $e) {
-            unset($e);
-        }
-
-        $publicDir = Env::get('APP_PUBLIC_DIR', 'public');
-        $publicPath = fs::normalizePath($basePath . fs::DS . $publicDir);
+        Env::load($basePath);
 
         switch ($wpEnv = $_ENV['APP_ENV'] ?? 'production') {
             default :
@@ -37,6 +27,9 @@ class WpEnv
                 break;
         }
         defined('WP_ENVIRONMENT_TYPE') ?: define('WP_ENVIRONMENT_TYPE', $wpEnv);
+
+        $publicDir = Env::get('APP_PUBLIC_DIR', 'public');
+        $publicPath = fs::normalizePath($basePath . fs::DS . $publicDir);
 
         $debug = Env::get('WP_DEBUG', false);
         define('WP_DEBUG', filter_var($debug ?? false, FILTER_VALIDATE_BOOLEAN));
@@ -116,7 +109,5 @@ class WpEnv
         if (!defined('ABSPATH')) {
             define('ABSPATH', fs::normalizePath($basePath . fs::DS . $publicDir . fs::DS . APP_WP_DIR));
         }
-
-        require_once(ABSPATH . 'wp-settings.php');
     }
 }
