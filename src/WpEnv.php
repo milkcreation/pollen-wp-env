@@ -31,7 +31,7 @@ class WpEnv
         $publicDir = Env::get('APP_PUBLIC_DIR', 'public');
         $publicPath = fs::normalizePath($basePath . fs::DS . $publicDir);
 
-        $debug = Env::get('WP_DEBUG', false);
+        $debug = Env::get('WP_DEBUG', Env::get('APP_DEBUG'));
         define('WP_DEBUG', filter_var($debug ?? false, FILTER_VALIDATE_BOOLEAN));
         define('WP_DEBUG_LOG', filter_var(Env::get('WP_DEBUG_LOG', false), FILTER_VALIDATE_BOOLEAN));
         define('WP_DEBUG_DISPLAY', filter_var(Env::get('WP_DEBUG_DISPLAY', $debug), FILTER_VALIDATE_BOOLEAN));
