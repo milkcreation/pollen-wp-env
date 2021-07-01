@@ -65,7 +65,7 @@ class WpEnv
         define('WP_HOME', Env::get('APP_URL') ?? 'http://127.0.0.1:8000');
         define('WP_SITEURL', WP_HOME . '/' . APP_WP_DIR);
 
-        $wpPublicDir = Env::get('APP_WP_PUBLIC_DIR', '/');
+        $wpPublicDir = ltrim(rtrim(Env::get('APP_WP_PUBLIC_DIR', '/'), '/'));
         define('WP_CONTENT_DIR', fs::normalizePath($publicPath . fs::DS . $wpPublicDir));
         define('WP_CONTENT_URL', WP_HOME . '/' . $wpPublicDir);
 
