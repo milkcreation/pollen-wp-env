@@ -107,7 +107,7 @@ class WpEnv
         }
 
         if (!defined('ABSPATH')) {
-            define('ABSPATH', fs::normalizePath($basePath . fs::DS . $publicDir . fs::DS . APP_WP_DIR));
+            define('ABSPATH', fs::normalizePath($basePath . fs::DS . $publicDir . fs::DS . APP_WP_DIR) . fs::DS);
         }
     }
 }
