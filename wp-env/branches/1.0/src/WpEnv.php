@@ -14,6 +14,9 @@ class WpEnv
      */
     public function __construct(string $basePath)
     {
+        $basePath = fs::normalizePath($basePath);
+        $isStandard = $this->isStandard($basePath);
+
         Env::load($basePath);
 
         switch ($wpEnv = $_ENV['APP_ENV'] ?? 'production') {
@@ -28,7 +31,7 @@ class WpEnv
         }
         defined('WP_ENVIRONMENT_TYPE') ?: define('WP_ENVIRONMENT_TYPE', $wpEnv);
 
-        $publicDir = Env::get('APP_PUBLIC_DIR', 'public');
+        $publicDir = Env::get('APP_PUBLIC_DIR', $isStandard ? '/' : 'public');
         $publicPath = fs::normalizePath($basePath . fs::DS . $publicDir);
 
         $debug = Env::get('WP_DEBUG', Env::get('APP_DEBUG'));
@@ -61,11 +64,11 @@ class WpEnv
         define('LOGGED_IN_SALT', Env::get('LOGGED_IN_SALT', ''));
         define('NONCE_SALT', Env::get('NONCE_SALT', ''));
 
-        defined('APP_WP_DIR') ?: define('APP_WP_DIR', Env::get('APP_WP_DIR') ?? 'wordpress');
+        defined('APP_WP_DIR') ?: define('APP_WP_DIR', Env::get('APP_WP_DIR', $isStandard ? '/' : 'wordpress'));
         define('WP_HOME', Env::get('APP_URL') ?? 'http://127.0.0.1:8000');
         define('WP_SITEURL', WP_HOME . '/' . APP_WP_DIR);
 
-        $wpPublicDir = ltrim(rtrim(Env::get('APP_WP_PUBLIC_DIR', '/'), '/'));
+        $wpPublicDir = ltrim(rtrim(Env::get('APP_WP_PUBLIC_DIR', $isStandard ? 'wp-content' : '/'), '/'));
         define('WP_CONTENT_DIR', fs::normalizePath($publicPath . fs::DS . $wpPublicDir));
         define('WP_CONTENT_URL', WP_HOME . '/' . $wpPublicDir);
 
@@ -109,5 +112,19 @@ class WpEnv
         if (!defined('ABSPATH')) {
             define('ABSPATH', fs::normalizePath($basePath . fs::DS . $publicDir . fs::DS . APP_WP_DIR) . fs::DS);
         }
+    }
+
+    /**
+     * Check if Wordpress is installed in standard mode.
+     *
+     * @param string $basePath
+     *
+     * @return bool
+     */
+    protected function isStandard(string $basePath): bool
+    {
+        return file_exists($basePath . fs::DS . 'wp-admin') &&
+            file_exists($basePath . fs::DS . 'wp-content') &&
+            file_exists($basePath . fs::DS . 'wp-includes');
     }
 }
