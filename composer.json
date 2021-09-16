@@ -1,25 +1,19 @@
 {
   "name": "pollen-solutions/wp-env",
   "description": "Pollen Wordpress Env Component - Wordpress configuration with .env file.",
-  "homepage": "https://www.presstify.com/pollen-solutions/wp-env/",
+  "homepage": "https://github.com/milkcreation/pollen-wp-env.git",
   "keywords": [
     "pollen solutions",
     "wordpress",
     "wp-config",
     "wp-env"
   ],
-  "time": "2021-07-15",
+  "time": "2021-09-16",
   "license": "MIT",
   "authors": [
     {
       "name": "Jordy Manner",
       "email": "jordy@presstify.com"
-    }
-  ],
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "https://composer.presstify.com/pollen-solutions/"
     }
   ],
   "require": {
